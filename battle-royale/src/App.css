@@ -1,0 +1,299 @@
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.game-canvas {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 1) 100%);
+}
+
+.game-canvas.downed {
+  filter: grayscale(0.6) brightness(0.7);
+}
+
+.hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 240px;
+  backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.6);
+  z-index: 2;
+}
+
+.hud-bar label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.hud-progress {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  height: 18px;
+  margin-top: 6px;
+}
+
+.hud-progress.stamina {
+  border-color: rgba(125, 211, 252, 0.35);
+}
+
+.hud-progress-value {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0f172a;
+  text-shadow: none;
+  transition: width 0.2s ease;
+  background: linear-gradient(90deg, rgba(96, 165, 250, 1), rgba(59, 130, 246, 1));
+}
+
+.hud-progress.stamina .hud-progress-value {
+  background: linear-gradient(90deg, rgba(34, 211, 238, 1), rgba(59, 130, 246, 1));
+}
+
+.hud-inventory {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.hud-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.hud-settings {
+  margin-top: 12px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.25);
+  color: #e0f2fe;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.hud-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+.hud-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 320px;
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 18px;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  padding: 24px;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #f8fafc;
+}
+
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+}
+
+.slider-track {
+  position: relative;
+  flex-grow: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.2);
+}
+
+.slider-range {
+  position: absolute;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(96, 165, 250, 1), rgba(14, 165, 233, 1));
+}
+
+.slider-thumb {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 1);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.control-button {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 1), rgba(129, 140, 248, 1));
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.control-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+}
+
+.mobile-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.touch-joystick {
+  pointer-events: auto;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.45);
+  position: relative;
+  backdrop-filter: blur(10px);
+  display: none;
+}
+
+.touch-joystick.active {
+  border-color: rgba(96, 165, 250, 0.6);
+}
+
+.touch-handle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.7);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease;
+}
+
+.mobile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.control-button.smoke {
+  background: linear-gradient(135deg, rgba(148, 163, 184, 1), rgba(148, 163, 184, 0.6));
+  color: #0f172a;
+}
+
+.control-button.heal {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 1), rgba(129, 140, 248, 1));
+  color: #f8fafc;
+}
+
+.hud-toasts {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hud-toast {
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  font-weight: 600;
+}
+
+.hud-toast-viewport {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  z-index: 2;
+}
+
+.downed-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 6, 23, 0.85);
+  color: #f8fafc;
+  z-index: 3;
+}
+
+.downed-overlay button {
+  background: rgba(59, 130, 246, 1);
+  color: #0f172a;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .hud {
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 280px;
+  }
+
+  .touch-joystick {
+    display: block;
+  }
+
+  .mobile-buttons {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .hud-meta {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
